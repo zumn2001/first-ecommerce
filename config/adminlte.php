@@ -329,6 +329,11 @@ return [
             'icon' => 'fas fa-fw fa-list',
         ],
         [
+            'text' => 'Products',
+            'url'  => '/admin/products',
+            'icon' => 'fas fa-fw fa-list',
+        ],
+        [
             'text'    => 'multilevel',
             'icon'    => 'fas fa-fw fa-share',
             'submenu' => [

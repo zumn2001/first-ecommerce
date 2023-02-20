@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SubCategoryController;
 
 /*
@@ -20,13 +21,11 @@ use App\Http\Controllers\SubCategoryController;
 Route::get('/', function () {
     return view('welcome');
 });
-
-Route::prefix('/admin')->group(function () {
+Route::prefix('/admin')->middleware('auth')->group(function () {
     Route::get('/', [DashboardController::class, 'index']);
     Route::resource('/categories', CategoryController::class);
     Route::resource('/sub_categories', SubCategoryController::class);
-
+    Route::resource('/products', ProductController::class);
 });
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
