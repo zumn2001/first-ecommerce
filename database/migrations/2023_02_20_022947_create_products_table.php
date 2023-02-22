@@ -22,7 +22,7 @@ class CreateProductsTable extends Migration
             $table->integer('discount')->nullable();
             $table->integer('stock');
             $table->integer('category_id');
-            $table->integer('sub_category_id');
+            $table->integer('subcategory_id');
             $table->integer('tag_id');
             $table->string('image1');
             $table->string('image2')->nullable();

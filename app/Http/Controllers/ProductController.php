@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 use App\Models\Product;
+use App\Models\Category;
+use App\Models\SubCategory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
@@ -12,8 +15,9 @@ class ProductController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
-        //
+    {   
+        $products = Product::all();
+        return view('admin.products.index',compact('products'));
     }
 
     /**
@@ -22,8 +26,10 @@ class ProductController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create()
-    {
-        //
+    {   
+        $categories = Category::all();
+        $subcategories = SubCategory::all();
+        return view('admin.products.create',compact('categories','subcategories'));
     }
 
     /**
@@ -34,7 +40,37 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        $request->validate([
+            'name' => 'required',
+            'price' => 'required',
+            'description' => 'required',
+            'model' => 'required',
+            'stock' => 'required',
+            'category_id'=>'required',
+            'subcategory_id'=>'required',
+            'tag_id'=>'required',
+            'image1'=>'required',
+
+        ]);
+
+        $product = new Product();
+
+        $product->name = $request->name;
+        $product->price =  $request->price;
+        $product->description = $request->description;
+        $product->model = $request->model;
+        $product->stock = $request->stock;
+        $product->category_id = $request->category_id;
+        $product->subcategory_id = $request->subcategory_id;
+        $product->tag_id = $request->tag_id;
+        $product->discount = $request->discount;
+         
+        $filename = time()."_".$request->file('image1')->getClientOriginalName();
+        $request->file('image1')->move(public_path('image'), $filename);
+        $product->image1 = $filename;
+        $product->save();
+        return redirect()->route('products.index');
     }
 
     /**
